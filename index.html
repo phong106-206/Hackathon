@@ -12,7 +12,7 @@
 </head>
 <body>
     <div class="quiz-container">
-        <h1> Group 1 Hackathon </h1>
+        <h1 tabindex="0">Group 1 Hackathon </h1>
         <div class ="svg-graphic">
             <svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
             <rect width="400" height="400" fill="#02111B" rx="24"/>
@@ -25,13 +25,13 @@
         </div>
         <p>Test your knowledge with a list of ...</p>
 
-        <div id="start-screen">
+        <div id="start-screen" class="hidden">
             <button id="start-btn">Start Quiz</button>.
         </div>
         
         <div id="quiz-screen" class="hidden">
             <h2 id="question"><!-- Question should be displayed here --></h2>
-            <div id="answers"></div>
+            <div id="answers"><!-- Answers should be displayed here--></div>
             <p id="feedback"></p>
             <button id="next-btn" class="hidden">Next Question</button>
         </div>
@@ -42,5 +42,12 @@
             <button id="play-again-btn">Play Again</button>
         </div>
     </div>
+
+    <footer>
+        <div class ="footer-container">
+            <p id="footer-text"> &copy; Phong Nguyen Lily Despins Jeremy Fuentes Rivera Ramirez Christopher Kuharski</p>
+            
+        </div>
+    </footer>
 </body>
 </html>

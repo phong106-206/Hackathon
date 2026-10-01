@@ -1,233 +1,132 @@
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // Listing all the references to fill the information dynamically.
+    let startButton = document.getElementById("start-btn");
+    let startScreen = document.getElementById("start-screen");
+    let quizScreen = document.getElementById("quiz-screen");
 
-    // Get elements from HTML
-    let start_button =
-        document.getElementById("start-btn");
+    let question = document.getElementById("question");
+    let answers = document.getElementById("answers");
+    let feedback = document.getElementById("feedback");
 
-    let start_screen =
-        document.getElementById("start-screen");
+    let nextButton = document.getElementById("next-btn");
+    let resultScreen = document.getElementById("result-screen");
+    let finalScore = document.getElementById("final-score");
+    let playAgainButton = document.getElementById("play-again-btn");
 
-    let quiz_screen =
-        document.getElementById("quiz-screen");
-
-    let question =
-        document.getElementById("question");
-
-    let answers =
-        document.getElementById("answers");
-
-    let feedback =
-        document.getElementById("feedback");
-
-    let next_button =
-        document.getElementById("next-btn");
-
-    let result_screen =
-        document.getElementById("result-screen");
-
-    let final_score =
-        document.getElementById("final-score");
-
-    let play_again_button =
-        document.getElementById("play-again-btn");
-
-
-    // Store quiz questions
-    let questions = [
+    //Quiz Questions
+    const questions = [
         {
-            question: "Who is your favorite teacher?",
-
+            question: "What is the name of our Front End Dev teacher?",
             answers: [
-                "Mr. Smith",
-                "Ms. Brown",
-                "Mr. Lee",
-                "Ms. Wilson"
+                "Alan Simpson",
+                "Batman",
+                "Superman"
             ],
-
-            correct_answer: "Mr. Smith"
+            correct: "Alan Simpson"
         },
 
         {
-            question: "What does HTML stand for?",
-
+            question: "What is the last name of Phong?",
             answers: [
-                "Hyper Text Markup Language",
-                "High Tech Modern Language",
-                "Home Tool Markup Language",
-                "Hyperlink Text Management Language"
+                "Nguyen",
+                "Billy Bob",
+                "Super Cool"
             ],
-
-            correct_answer:
-                "Hyper Text Markup Language"
+            correct: "Nguyen"
         },
 
         {
-            question:
-                "Which language makes a webpage interactive?",
-
+            question: "What is the last name of Chris?",
             answers: [
-                "HTML",
-                "CSS",
-                "JavaScript",
-                "SQL"
+                "Kuharski",
+                "Criminal",
+                "Monster"
             ],
+            correct: "Kuharski"
+        },
 
-            correct_answer: "JavaScript"
+        {
+            question: "What is the last name of Lily?",
+            answers: [
+                "Despin",
+                "Taco",
+                "Ford Truck"
+            ],
+            correct: "Despin"
+        },
+
+        {
+            question: "What is the last name of Jeremy?",
+            answers: [
+                "Ramirez",
+                "Computer",
+                "Raptor"
+            ],
+            correct: "Ramirez"
         }
     ];
 
 
-    // Store current question and score
-    let current_question = 0;
-    let score = 0;
-
-
-    // Start the quiz
-    start_button.addEventListener("click", startQuiz);
-
-
+    // Placing the variables on the class level so that they can be accessed by all the functions.
+    let currentQuestion = 0
+    let score = 0
+    
     function startQuiz() {
 
-        current_question = 0;
-        score = 0;
-
-        start_screen.style.display = "none";
-
-        quiz_screen.style.display = "block";
-
-        result_screen.style.display = "none";
+        startScreen.style.display = "none";
+        quizScreen.style.display = "none";
+        resultScreen.style.display = "none";
 
         showQuestion();
     }
 
-
-    // Display the current question
     function showQuestion() {
-
-        let current =
-            questions[current_question];
-
-
-        question.textContent =
-            current.question;
-
-
+        let current = questions[currentQuestion];
+        question.textContent = current.question;
         answers.innerHTML = "";
-
         feedback.textContent = "";
+        nextButton.style.display = "none";
 
-        next_button.style.display = "none";
-
-
-        // Create answer buttons
-        for (let i = 0;
-             i < current.answers.length;
-             i++) {
-
-            let answer_button =
-                document.createElement("button");
-
-
-            answer_button.textContent =
-                current.answers[i];
-
-
-            answer_button.addEventListener(
-                "click",
-                () => {
-
-                    checkAnswer(
-                        current.answers[i]
-                    );
-
-                }
-            );
-
-
-            answers.appendChild(answer_button);
+        for (let i = 0; i < current.answers.length; i++) {
+            let answerButton = document.createElement("button");
+            answerButton.textContent = current.answers[i];
+            answerButton.addEventListener("click", () => {
+                checkAnswer(current.answers[i]);
+            });
+            answers.appendChild(answerButton);
         }
     }
 
+    function checkAnswer(selectedAnswer) {
+        let current = questions[currentQuestion];
 
-    // Check the answer
-    function checkAnswer(selected_answer) {
-
-        let current =
-            questions[current_question];
-
-
-        if (selected_answer === current.correct_answer) {
-
+        if (selectedAnswer === current.correct) {
             feedback.textContent = "Correct!";
-
             score++;
-
         } else {
-
-            feedback.textContent =
-                "Incorrect! The correct answer is " +
-                current.correct_answer;
+            feedback.textContent = "Incorrect! The correct answer is " + current.correct;
         }
 
-
-        // Disable answer buttons
-        let answer_buttons =
-            answers.querySelectorAll("button");
-
-
-        for (let i = 0;
-             i < answer_buttons.length;
-             i++) {
-
-            answer_buttons[i].disabled = true;
-        }
-
-
-        next_button.style.display = "block";
+        nextButton.style.display = "block";
     }
 
+    nextButton.addEventListener("click", () => {
+        currentQuestion++;
 
-    // Go to the next question
-    next_button.addEventListener(
-        "click",
-        () => {
-
-            current_question++;
-
-
-            if (current_question < questions.length) {
-
-                showQuestion();
-
-            } else {
-
-                showResult();
-            }
-
+        if (currentQuestion < questions.length) {
+            showQuestion();
         }
-    );
+        else {
+            showResult()
+        }
+    });
 
-
-    // Display the result
     function showResult() {
-
-        quiz_screen.style.display = "none";
-
-        result_screen.style.display = "block";
-
-
-        final_score.textContent =
-            "Your score is " +
-            score +
-            " out of " +
-            questions.length;
+        quizScreen.style.display = "none";
+        resultScreen.style.display = "block";
+        finalScore.textContent = "Your score is" + score + "out of" + questions.length;
     }
 
-
-    // Play again
-    play_again_button.addEventListener(
-        "click",
-        startQuiz
-    );
-
-});
+    playAgainButton.addEventListener("click", startQuiz);
+})
